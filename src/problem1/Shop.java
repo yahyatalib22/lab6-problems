@@ -1,6 +1,7 @@
 package problem1;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 public class Shop
 {
@@ -9,11 +10,11 @@ public class Shop
     {
         ArrayList<Item> cart = new ArrayList<>();
         double totalPrice;
-        Item item;
         String itemName;
         double itemPrice;
         int quantity;
         Scanner scan = new Scanner(System.in);
+        scan.useLocale(Locale.US);
         String keepShopping = "y";
         do
         {
@@ -25,22 +26,17 @@ public class Shop
             System.out.print ("Enter the quantity: ");
             quantity = scan.nextInt();
             scan.nextLine();
-            // *** create a new item and add it to the cart
-            item = new Item(itemName,itemPrice,quantity);
-            cart.add(item);
-            // *** print the contents of the cart object using println
-            for (int i=0;i<cart.size();i++) {
-                Item tempItem = new Item(cart.get(i).getName(),cart.get(i).getPrice(),cart.get(i).getQuantity());
-                System.out.println(tempItem);// I already created a toString methode in class Item.
-                totalPrice = totalPrice + tempItem.getQuantity()*tempItem.getPrice();
+            cart.add(new Item(itemName, itemPrice, quantity));
+            System.out.println("Cart contents:");
+            for (Item cartItem : cart) {
+                System.out.println(cartItem);
+                totalPrice += cartItem.getPrice() * cartItem.getQuantity();
             }
+            System.out.printf(Locale.US, "Total price: $%.2f%n", totalPrice);
 
             System.out.print ("Continue shopping (y/n)? ");
             keepShopping = scan.nextLine();
 
-            if (keepShopping.equals("n")) {
-                System.out.println("Total Price of all items: " + totalPrice);
-            }
         }
         while (keepShopping.equals("y"));
     }
